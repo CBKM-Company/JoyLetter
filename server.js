@@ -1,4 +1,4 @@
-url = "https://joyletter-test.herokuapp.com"
+url = "http://localhost:5000"
 
 const getStorage = (item) => (JSON.parse(sessionStorage.getItem(item)))
 
@@ -8,15 +8,16 @@ const removeStorage = (item) => (sessionStorage.removeItem(item))
 
 
 
-
 function login() {
     axios.post(`${url}/login`, {
         username: 'cbkm',
         password: 'cbkm1234'
     })
         .then(res => {
-            console.log(res)
-            setStorage('auth', res.data)           
+            // console.log(res.data.token)
+           setStorage('auth',res.data)
+
+
         })
         .catch(e => {
             console.log(e)
@@ -55,7 +56,7 @@ function submitEvent() {
         console.log(data)
         axios.post(`${url}/event/save`, data)
             .then(res => {
-                console.log(res.data)
+                console.log(res)
             })
     }
     else { alert("fill all details") }
@@ -154,8 +155,7 @@ function disApproved(id) {
 }
 
 function getAllEvent(f) {
-    axios.defaults.headers.common['token'] = getStorage("auth").login
-
+    axios.defaults.headers.common['token'] = getStorage('auth').token
     axios.get(`${url}/event/getall`).then(res => {
         console.log(res.data.event[1].title)
         data = res.data.event.filter(e => {
