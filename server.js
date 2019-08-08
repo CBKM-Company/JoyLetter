@@ -1,8 +1,10 @@
 url="https://joyletter-test.herokuapp.com"
 
-const getStorage =(item) => (JSON.parse(sessionStorage.getItem(item)))
-const setStorage =(item,data) => (JSON.parse(sessionStorage.setItem(item,JSON.stringify(data))))
-const removeStorage =(item) => (sessionStorage.removeItem(item))
+const getStorage = (item) => (JSON.parse(sessionStorage.getItem(item)))
+
+const setStorage = (item, data) => (sessionStorage.setItem(item, JSON.stringify(data)))
+
+const removeStorage = (item) => (sessionStorage.removeItem(item))
 
 
 function submitEvent(){
@@ -162,7 +164,7 @@ function getApproved(id){
     alert("approve")
     axios.get(`${url}/event/get/${id}`).then(res=>{
         console.log(res.data.event)
-        setStorage('event',res.data.event[0])
+        setStorage('event',res.data.event)
         s=`
         Contact Person:<input id="cp" value="${res.data.event.contactPerson}" type="text" /><br>
     Contact Number:<input id="cn" type="number"/><br>
