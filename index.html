@@ -15,7 +15,7 @@
 </head>
 
 <body>
-    Contact Person:<input id="cp" type="text" /><br>
+    <!-- Contact Person:<input id="cp" type="text" /><br>
     Contact Number:<input id="cn" type="number" /><br>
 
     Event Title:<input id="et" type="text"><br>
@@ -26,28 +26,28 @@
     Event End date:<input id="ead" type="date"><br>
     Event publish date on app:<input id="pd" type="date"><br>
     Event un-publish date on app:<input id="ud" type="date"><br>
-    <button onclick="submitEvent()">Submit for review</button>
-
-    <form>
+    <button onclick="submitEvent()">Submit for review</button> -->
+<h1 style="text-align: center">Event Information Form</h1>
+    <div class="container">
         <div class="form-group">
             <label for="exampleFormControlInput1">Contact Person:</label>
-            <input type="text" class="form-control" id="cp" placeholder="name@example.com">
+            <input type="text" class="form-control" id="cp" placeholder="Contact Person">
         </div>
         <div class="form-group">
             <label for="exampleFormControlInput1">Contact Number:</label>
-            <input type="text" class="form-control" id="cn" placeholder="name@example.com">
+            <input type="text" class="form-control" id="cn" placeholder="Contact Number">
         </div>
         <div class="form-group">
             <label for="exampleFormControlInput1">Event Title:</label>
-            <input type="text" class="form-control" id="et" placeholder="name@example.com">
+            <input type="text" class="form-control" id="et" placeholder="Event Title">
         </div>
         <div class="form-group">
             <label for="exampleFormControlInput1">Event City:</label>
-            <input type="text" class="form-control" id="ct" placeholder="name@example.com">
+            <input type="text" class="form-control" id="ct" placeholder="Event City">
         </div>
         <div class="form-group">
             <label for="exampleFormControlInput1">Event Address:</label>
-            <input type="text" class="form-control" id="ea" placeholder="name@example.com">
+            <input type="text" class="form-control" id="ea" placeholder="Event Address">
         </div>
 
         <div class="form-group">
@@ -55,10 +55,25 @@
             <textarea class="form-control" id="ed" rows="3"></textarea>
         </div>
         <div class="form-group">
-                <label for="exampleFormControlInput1">Event Address:</label>
-                <input type="date" class="form-control" id="ea" placeholder="name@example.com">
-            </div>
-    </form>
+            <label for="exampleFormControlInput1">Event Start date:</label>
+            <input type="date" class="form-control" id="sd" placeholder="Event Start date">
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlInput1">Event End date:</label>
+            <input type="date" class="form-control" id="ead" placeholder="Event End date">
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlInput1">Event publish date on app:</label>
+            <input type="date" class="form-control" id="pd" placeholder="Event publish date on app">
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlInput1">Event un-publish date on app:</label>
+            <input type="date" class="form-control" id="ud" placeholder="var jwt = require('jsonwebtoken');
+                            ">
+        </div>
+        <button  onclick="submitEvent()" class="btn btn-primary">Submit</button>
+
+    </div>
 
 
 

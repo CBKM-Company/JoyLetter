@@ -1,4 +1,4 @@
-url = "http://localhost:5000"
+url = "https://joyletter-test.herokuapp.com"
 
 const getStorage = (item) => (JSON.parse(sessionStorage.getItem(item)))
 
@@ -6,22 +6,37 @@ const setStorage = (item, data) => (sessionStorage.setItem(item, JSON.stringify(
 
 const removeStorage = (item) => (sessionStorage.removeItem(item))
 
-
+function check(){
+    alert('hello')
+    if(!getStorage('auth'))
+        window.location.href = 'login.html'
+}
 
 function login() {
     axios.post(`${url}/login`, {
-        username: 'cbkm',
-        password: 'cbkm1234'
+        username: document.getElementById('username').value,
+        password: document.getElementById('password').value
     })
         .then(res => {
             // console.log(res.data.token)
-           setStorage('auth',res.data)
+            if (res.data.login) {
+                setStorage('auth', res.data)
+                window.location.href = 'toBeApproved.html'
+            }
 
-
+            else {
+                alert("login un-successful")
+            }
         })
         .catch(e => {
             console.log(e)
         })
+}
+
+
+function logout(){
+    removeStorage('auth')
+    removeStorage('event')
 }
 
 function submitEvent() {
@@ -68,6 +83,7 @@ function submitEvent() {
 
 
 function aproved(id) {
+    check();
 
     cp = document.getElementById("cp").value
     cn = document.getElementById("cn").value
@@ -102,8 +118,10 @@ function aproved(id) {
         axios.post(`${url}/event/update`, data)
             .then(res => {
                 console.log(res.data)
+                removeStorage('event')
                 window.location.href = 'approved.html'
             })
+            
 
     }
     else { alert("fill all details") }
@@ -113,6 +131,7 @@ function aproved(id) {
 
 
 function disApproved(id) {
+    check();
     cp = document.getElementById("cp").value
     cn = document.getElementById("cn").value
     et = document.getElementById("et").value
@@ -146,6 +165,7 @@ function disApproved(id) {
         axios.post(`${url}/event/update`, data)
             .then(res => {
                 console.log(res.data)
+                removeStorage('event')
                 window.location.href = 'disapproved.html'
             })
     }
@@ -155,6 +175,7 @@ function disApproved(id) {
 }
 
 function getAllEvent(f) {
+    check();
     axios.defaults.headers.common['token'] = getStorage('auth').token
     axios.get(`${url}/event/getall`).then(res => {
         console.log(res.data.event[1].title)
@@ -191,6 +212,7 @@ function getAllEvent(f) {
 }
 
 function getApproved(id) {
+    check()
     axios.get(`${url}/event/get/${id}`).then(res => {
         console.log(res.data.event)
 
@@ -203,6 +225,7 @@ function getApproved(id) {
 
 
 function getContact() {
+    check()
     event = getStorage('event')
     document.getElementById('getApproved').innerHTML = `
         Contact Person:<input id="cp" value="${event.contactPerson}" type="text" /><br>
