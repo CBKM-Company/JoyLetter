@@ -7,6 +7,22 @@ const setStorage = (item, data) => (sessionStorage.setItem(item, JSON.stringify(
 const removeStorage = (item) => (sessionStorage.removeItem(item))
 
 
+
+
+function login() {
+    axios.post(`${url}/login`, {
+        username: 'cbkm',
+        password: 'cbkm1234'
+    })
+        .then(res => {
+            console.log(res)
+            setStorage('auth', res.data)           
+        })
+        .catch(e => {
+            console.log(e)
+        })
+}
+
 function submitEvent() {
     cp = document.getElementById("cp").value
     cn = document.getElementById("cn").value
@@ -82,7 +98,12 @@ function aproved(id) {
             status: 1
         }
         console.groupCollapsed(data)
-        axios.post(`${url}/event/update`)
+        axios.post(`${url}/event/update`, data)
+            .then(res => {
+                console.log(res.data)
+                window.location.href = 'approved.html'
+            })
+
     }
     else { alert("fill all details") }
 
@@ -90,7 +111,7 @@ function aproved(id) {
 }
 
 
-function disAproved(id) {
+function disApproved(id) {
     cp = document.getElementById("cp").value
     cn = document.getElementById("cn").value
     et = document.getElementById("et").value
@@ -121,17 +142,25 @@ function disAproved(id) {
             status: -1
         }
         console.groupCollapsed(data)
-        axios.post(`${url}/event/update`)
+        axios.post(`${url}/event/update`, data)
+            .then(res => {
+                console.log(res.data)
+                window.location.href = 'disapproved.html'
+            })
     }
     else { alert("fill all details") }
 
 
 }
 
-function getAllEvent() {
-    alert('hello')
+function getAllEvent(f) {
+    axios.defaults.headers.common['token'] = getStorage("auth").login
+
     axios.get(`${url}/event/getall`).then(res => {
         console.log(res.data.event[1].title)
+        data = res.data.event.filter(e => {
+            return e.status == f
+        })
         s = `<table class="table table-striped">
         <thead>
           <tr>
@@ -142,14 +171,14 @@ function getAllEvent() {
           </tr>
         </thead>
         <tbody>`
-        for (i = 0; i < res.data.event.length; i++) {
+        for (i = 0; i < data.length; i++) {
 
             // s+=res.data.event[i].contactNumber+'<br>'
             s += `<tr>
-            <th scope="row">${i}</th>
-            <td>${res.data.event[i].contactPerson}</td>
-            <td>${res.data.event[i].contactNumber}</td>
-            <td><button type="button" onclick="getApproved('${res.data.event[i]._id}')" class="btn btn-primary">Primary</button></td>
+            <th scope="row">${i + 1}</th>
+            <td>${data[i].contactPerson}</td>
+            <td>${data[i].contactNumber}</td>
+            <td><button type="button" onclick="getApproved('${data[i]._id}')" class="btn btn-primary">Details</button></td>
           </tr>`
         }
         s += `</tbody>
@@ -158,27 +187,38 @@ function getAllEvent() {
 
     })
 
+
 }
 
 function getApproved(id) {
-    alert("approve")
     axios.get(`${url}/event/get/${id}`).then(res => {
         console.log(res.data.event)
-        setStorage('event', res.data.event)
-        s = `
-        Contact Person:<input id="cp" value="${res.data.event.contactPerson}" type="text" /><br>
-    Contact Number:<input id="cn" type="number"/><br>
 
-    Event Title:<input id="et" type="text"><br>
-    Event City:<input id="ct" type="text"><br>
-    Event Address:<input id="ea" type="text"><br>
-    Event Description:<input id="ed" type="text"><br>
-    Event Start date:<input id="sd" type="date"><br>
-    Event End date:<input id="ead" type="date"><br>
-    Event publish date on app:<input id="pd" type="date"><br>
-    Event un-publish date on app:<input id="ud" type="date"><br>
-<button onclick="submitEvent()">Submit for review</button>`
+        setStorage('event', res.data.event)
+        window.location.href = 'getApproved.html'
+
     })
 
 }
+
+
+function getContact() {
+    event = getStorage('event')
+    document.getElementById('getApproved').innerHTML = `
+        Contact Person:<input id="cp" value="${event.contactPerson}" type="text" /><br>
+    Contact Number:<input id="cn" value="${event.contactNumber}" type="number"/><br>
+
+    Event Title:<input id="et" value="${event.title}" type="text"><br>
+    Event City:<input id="ct" value="${event.city}" type="text"><br>
+    Event Address:<input id="ea" value="${event.address}" type="text"><br>
+    Event Description:<input id="ed" value="${event.description}" type="text"><br>
+    Event Start date:<input id="sd" value="${event.startDate.split('T')[0]}" type="date"><br>
+    Event End date:<input id="ead" value="${event.endDate.split('T')[0]}" type="date"><br>
+    Event publish date on app:<input id="pd" value="${event.publishDate.split('T')[0]}" type="date"><br>
+    Event un-publish date on app:<input id="ud" value="${event.unPublishDate.split('T')[0]}" type="date"><br>
+    <button onclick="aproved('${event._id}')">Approve</button> <br>
+    <button onclick="disApproved('${event._id}')">Disapprove</button> `
+
+}
+
 
