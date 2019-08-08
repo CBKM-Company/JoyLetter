@@ -1,4 +1,4 @@
-url="https://joyletter-test.herokuapp.com"
+url = "https://joyletter-test.herokuapp.com"
 
 const getStorage = (item) => (JSON.parse(sessionStorage.getItem(item)))
 
@@ -7,42 +7,42 @@ const setStorage = (item, data) => (sessionStorage.setItem(item, JSON.stringify(
 const removeStorage = (item) => (sessionStorage.removeItem(item))
 
 
-function submitEvent(){
-    cp=document.getElementById("cp").value
-    cn=document.getElementById("cn").value
-    et=document.getElementById("et").value
-    ct=document.getElementById("ct").value
-    ea=document.getElementById("ea").value
-    ed=document.getElementById("ed").value
-    pd=document.getElementById("pd").value
-    ud=document.getElementById("ud").value
-    ead=document.getElementById("ead").value
-    sd=document.getElementById("sd").value
+function submitEvent() {
+    cp = document.getElementById("cp").value
+    cn = document.getElementById("cn").value
+    et = document.getElementById("et").value
+    ct = document.getElementById("ct").value
+    ea = document.getElementById("ea").value
+    ed = document.getElementById("ed").value
+    pd = document.getElementById("pd").value
+    ud = document.getElementById("ud").value
+    ead = document.getElementById("ead").value
+    sd = document.getElementById("sd").value
 
 
-    if(cp&&cn&&et&&ct&&ea&&ed&&pd&&ud&&ead&&sd)
-{
-
-    data={
-        startDate:sd,
-        endDate:ead,
-        publishDate:pd,
-        unPublishDate:ud,
-        title:et,
-        description:ed,
-        city:ct,
-        address:ea,
-        contactNumber:cn,
-        contactPerson:cp,
-        status:0,
+    if (cp && cn && et && ct && ea && ed && pd && ud && ead && sd) {
+        pd += "T12:30:00.000Z"
+        ud += "T12:30:00.000Z"
+        data = {
+            startDate: sd,
+            endDate: ead,
+            publishDate: pd,
+            unPublishDate: ud,
+            title: et,
+            description: ed,
+            city: ct,
+            address: ea,
+            contactNumber: cn,
+            contactPerson: cp,
+            status: 0,
+        }
+        console.log(data)
+        axios.post(`${url}/event/save`, data)
+            .then(res => {
+                console.log(res.data)
+            })
     }
-    console.groupCollapsed(data)
-    axios.post(`${url}/event/save`,data)
-    .then(res=>{
-        console.log(res.data)
-    })
-}
-else{alert("fill all details")}
+    else { alert("fill all details") }
 
 
 }
@@ -50,87 +50,87 @@ else{alert("fill all details")}
 
 
 
-function aproved(id){
-    
-    cp=document.getElementById("cp").value
-    cn=document.getElementById("cn").value
-    et=document.getElementById("et").value
-    ct=document.getElementById("ct").value
-    ea=document.getElementById("ea").value
-    ed=document.getElementById("ed").value
-    pd=document.getElementById("pd").value
-    ud=document.getElementById("ud").value
-    ead=document.getElementById("ead").value
-    sd=document.getElementById("sd").value
+function aproved(id) {
+
+    cp = document.getElementById("cp").value
+    cn = document.getElementById("cn").value
+    et = document.getElementById("et").value
+    ct = document.getElementById("ct").value
+    ea = document.getElementById("ea").value
+    ed = document.getElementById("ed").value
+    pd = document.getElementById("pd").value
+    ud = document.getElementById("ud").value
+    ead = document.getElementById("ead").value
+    sd = document.getElementById("sd").value
 
 
-    if(cp&&cn&&et&&ct&&ea&&ed&&pd&&ud&&ead&&sd)
-{
-
-    data={
-        id:id,
-        startDate:sd,
-        endDate:ead,
-        publishDate:pd,
-        unPublishDate:ud,
-        title:et,
-        description:ed,
-        city:ct,
-        address:ea,
-        contactNumber:cn,
-        contactPerson:cp,
-        status:1
+    if (cp && cn && et && ct && ea && ed && pd && ud && ead && sd) {
+        pd += "T12:30:00.000Z"
+        ud += "T12:30:00.000Z"
+        data = {
+            id: id,
+            startDate: sd,
+            endDate: ead,
+            publishDate: pd,
+            unPublishDate: ud,
+            title: et,
+            description: ed,
+            city: ct,
+            address: ea,
+            contactNumber: cn,
+            contactPerson: cp,
+            status: 1
+        }
+        console.groupCollapsed(data)
+        axios.post(`${url}/event/update`)
     }
-    console.groupCollapsed(data)
-    axios.post(`${url}/event/update`)
-}
-else{alert("fill all details")}
+    else { alert("fill all details") }
 
 
 }
 
 
-function disAproved(id){
-    cp=document.getElementById("cp").value
-    cn=document.getElementById("cn").value
-    et=document.getElementById("et").value
-    ct=document.getElementById("ct").value
-    ea=document.getElementById("ea").value
-    ed=document.getElementById("ed").value
-    pd=document.getElementById("pd").value
-    ud=document.getElementById("ud").value
-    ead=document.getElementById("ead").value
-    sd=document.getElementById("sd").value
+function disAproved(id) {
+    cp = document.getElementById("cp").value
+    cn = document.getElementById("cn").value
+    et = document.getElementById("et").value
+    ct = document.getElementById("ct").value
+    ea = document.getElementById("ea").value
+    ed = document.getElementById("ed").value
+    pd = document.getElementById("pd").value
+    ud = document.getElementById("ud").value
+    ead = document.getElementById("ead").value
+    sd = document.getElementById("sd").value
 
 
-    if(cp&&cn&&et&&ct&&ea&&ed&&pd&&ud&&ead&&sd)
-{
-
-    data={
-        id:id,
-        startDate:sd,
-        endDate:ead,
-        publishDate:pd,
-        unPublishDate:ud,
-        title:et,
-        description:ed,
-        city:ct,
-        address:ea,
-        contactNumber:cn,
-        contactPerson:cp,
-        status:-1
+    if (cp && cn && et && ct && ea && ed && pd && ud && ead && sd) {
+        pd += "T12:30:00.000Z"
+        ud += "T12:30:00.000Z"
+        data = {
+            id: id,
+            startDate: sd,
+            endDate: ead,
+            publishDate: pd,
+            unPublishDate: ud,
+            title: et,
+            description: ed,
+            city: ct,
+            address: ea,
+            contactNumber: cn,
+            contactPerson: cp,
+            status: -1
+        }
+        console.groupCollapsed(data)
+        axios.post(`${url}/event/update`)
     }
-    console.groupCollapsed(data)
-    axios.post(`${url}/event/update`)
-}
-else{alert("fill all details")}
+    else { alert("fill all details") }
 
 
 }
 
-function getAllEvent(){
+function getAllEvent() {
     alert('hello')
-    axios.get(`${url}/event/getall`).then(res=>{
+    axios.get(`${url}/event/getall`).then(res => {
         console.log(res.data.event[1].title)
         s = `<table class="table table-striped">
         <thead>
@@ -142,7 +142,7 @@ function getAllEvent(){
           </tr>
         </thead>
         <tbody>`
-        for(i=0;i<res.data.event.length;i++){
+        for (i = 0; i < res.data.event.length; i++) {
 
             // s+=res.data.event[i].contactNumber+'<br>'
             s += `<tr>
@@ -152,20 +152,20 @@ function getAllEvent(){
             <td><button type="button" onclick="getApproved('${res.data.event[i]._id}')" class="btn btn-primary">Primary</button></td>
           </tr>`
         }
-        s+=`</tbody>
+        s += `</tbody>
         </table>`
         document.getElementById('allEvents').innerHTML = s
-        
+
     })
-    
+
 }
 
-function getApproved(id){
+function getApproved(id) {
     alert("approve")
-    axios.get(`${url}/event/get/${id}`).then(res=>{
+    axios.get(`${url}/event/get/${id}`).then(res => {
         console.log(res.data.event)
-        setStorage('event',res.data.event)
-        s=`
+        setStorage('event', res.data.event)
+        s = `
         Contact Person:<input id="cp" value="${res.data.event.contactPerson}" type="text" /><br>
     Contact Number:<input id="cn" type="number"/><br>
 
