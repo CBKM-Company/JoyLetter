@@ -7,7 +7,6 @@ const setStorage = (item, data) => (sessionStorage.setItem(item, JSON.stringify(
 const removeStorage = (item) => (sessionStorage.removeItem(item))
 
 function check(){
-    alert('hello')
     if(!getStorage('auth'))
         window.location.href = 'login.html'
 }
@@ -72,6 +71,7 @@ function submitEvent() {
         axios.post(`${url}/event/save`, data)
             .then(res => {
                 console.log(res)
+               window.location.href="thank.html"
             })
     }
     else { alert("fill all details") }
@@ -115,10 +115,11 @@ function aproved(id) {
             status: 1
         }
         console.groupCollapsed(data)
+        axios.defaults.headers.common['token'] = getStorage('auth').token
         axios.post(`${url}/event/update`, data)
             .then(res => {
                 console.log(res.data)
-                removeStorage('event')
+                // removeStorage('event')
                 window.location.href = 'approved.html'
             })
             
@@ -162,10 +163,11 @@ function disApproved(id) {
             status: -1
         }
         console.groupCollapsed(data)
+        axios.defaults.headers.common['token'] = getStorage('auth').token
         axios.post(`${url}/event/update`, data)
             .then(res => {
                 console.log(res.data)
-                removeStorage('event')
+                // removeStorage('event')
                 window.location.href = 'disapproved.html'
             })
     }
@@ -223,24 +225,69 @@ function getApproved(id) {
 
 }
 
+function deleteId(id) {
+    check()
+    axios.get(`${url}/delete/${id}`).then(res => {
+        console.log(res.data)
+
+    })
+
+}
+
 
 function getContact() {
     check()
     event = getStorage('event')
     document.getElementById('getApproved').innerHTML = `
-        Contact Person:<input id="cp" value="${event.contactPerson}" type="text" /><br>
-    Contact Number:<input id="cn" value="${event.contactNumber}" type="number"/><br>
 
-    Event Title:<input id="et" value="${event.title}" type="text"><br>
-    Event City:<input id="ct" value="${event.city}" type="text"><br>
-    Event Address:<input id="ea" value="${event.address}" type="text"><br>
-    Event Description:<input id="ed" value="${event.description}" type="text"><br>
-    Event Start date:<input id="sd" value="${event.startDate.split('T')[0]}" type="date"><br>
-    Event End date:<input id="ead" value="${event.endDate.split('T')[0]}" type="date"><br>
-    Event publish date on app:<input id="pd" value="${event.publishDate.split('T')[0]}" type="date"><br>
-    Event un-publish date on app:<input id="ud" value="${event.unPublishDate.split('T')[0]}" type="date"><br>
-    <button onclick="aproved('${event._id}')">Approve</button> <br>
-    <button onclick="disApproved('${event._id}')">Disapprove</button> `
+
+    <div class="container">
+    <div class="form-group">
+        <label for="exampleFormControlInput1">Contact Person:</label>
+        <input type="text" class="form-control" value="${event.contactPerson}" id="cp" placeholder="Contact Person">
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlInput1">Contact Number:</label>
+        <input type="text" class="form-control" value="${event.contactNumber}" id="cn" placeholder="Contact Number">
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlInput1">Event Title:</label>
+        <input type="text" class="form-control" value="${event.title}" id="et" placeholder="Event Title">
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlInput1">Event City:</label>
+        <input type="text" class="form-control" value="${event.city}" id="ct" placeholder="Event City">
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlInput1">Event Address:</label>
+        <input type="text" class="form-control" value="${event.address}" id="ea" placeholder="Event Address">
+    </div>
+
+    <div class="form-group">
+        <label for="exampleFormControlTextarea1">Event Description:</label>
+        <textarea class="form-control" id="ed" value ="${event.description}" rows="3"> ${event.description}</textarea>
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlInput1">Event Start date:</label>
+        <input type="date" class="form-control"  value="${event.startDate.split('T')[0]}" id="sd" placeholder="Event Start date">
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlInput1">Event End date:</label>
+        <input type="date" class="form-control"  value="${event.publishDate.split('T')[0]}"  id="ead" placeholder="Event End date">
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlInput1">Event publish date on app:</label>
+        <input type="date" class="form-control"  value="${event.publishDate.split('T')[0]}" id="pd" placeholder="Event publish date on app">
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlInput1">Event un-publish date on app:</label>
+        <input type="date" class="form-control" value="${event.unPublishDate.split('T')[0]}" id="ud" placeholder="var jwt = require('jsonwebtoken');
+                        "> <br>
+                        <button class="btn btn-primary" onclick="aproved('${event._id}')">Approve</button>  
+    <button class="btn btn-primary" onclick="disApproved('${event._id}')">Disapprove</button> 
+    </div>
+
+       `
 
 }
 
